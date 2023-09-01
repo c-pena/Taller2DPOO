@@ -1,6 +1,7 @@
 package modelo;
+import procesamiento.Producto;
 
-public class ProductoMenu {
+public class ProductoMenu implements Producto {
 	private String nombre;
 	private int precioBase;
 	
@@ -18,8 +19,6 @@ public class ProductoMenu {
 	}
 	
 	public String generarTextoFactura () {
-		String texto = String.format("|%-40s%10d|", nombre, precioBase);
-	    texto = texto.replace(' ', '_');
-	    return texto;
+	    return String.format("|%-40s%10d|\n", nombre, precioBase);
 	}
 }

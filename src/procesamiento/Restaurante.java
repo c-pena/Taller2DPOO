@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import modelo.Combo;
 import modelo.Ingrediente;
 import modelo.ProductoMenu;
 
@@ -17,6 +18,7 @@ public class Restaurante {
 	public void cargarInformacionRestaurante(File archivoIngredientes, File archivoMenu, File archivoCombos) {
 		cargarIngredientes(archivoIngredientes);
 		cargarMenu(archivoMenu);
+		cargarCombos(archivoCombos);
 	}
 	
 	
@@ -24,7 +26,7 @@ public class Restaurante {
 		try (BufferedReader br = new BufferedReader(new FileReader(archivoIngredientes))) {
 			String linea = br.readLine();
 			while(linea != null) {
-				String[] partes = linea.split(",");
+				String[] partes = linea.split(";");
 				String nombreProducto = partes[0];
 				int precioProducto = Integer.parseInt(partes[1]);
 				Ingrediente nuevo = new Ingrediente(nombreProducto, precioProducto);
@@ -40,7 +42,7 @@ public class Restaurante {
 		try (BufferedReader br = new BufferedReader(new FileReader(archivoMenu))) {
 			String linea = br.readLine();
 			while(linea != null) {
-				String[] partes = linea.split(",");
+				String[] partes = linea.split(";");
 				String nombreProducto = partes[0];
 				int precioProducto = Integer.parseInt(partes[1]);
 				ProductoMenu nuevo = new ProductoMenu(nombreProducto, precioProducto);
@@ -56,16 +58,20 @@ public class Restaurante {
 		try (BufferedReader br = new BufferedReader(new FileReader(archivoCombos))) {
 			String linea = br.readLine();
 			while(linea != null) {
+				String[] partes = linea.split(";");
+				String nombre = partes[0];
+				double descuento = 1 - Integer.parseInt(partes[1].replace('%', ' ')) * 0.01;
+				Combo nuevoCombo = new Combo(nombre, descuento);
+				
+				nuevoCombo.agregarItemACombo(menu.get(partes[2]));
+				nuevoCombo.agregarItemACombo(menu.get(partes[3]));
+				nuevoCombo.agregarItemACombo(menu.get(partes[4]));
 				
 				
-				String[] partes = linea.split(",");
-				String nombreCombo = partes[0];
-				float descuento = (float) Integer.parseInt(partes[1].replace('%', ' ')) / 100;
-				String nombreProducto = partes[2];
-				String tipoPapas = partes[3];
-				String tipoBebida = partes[4];
-				Combo nuevo = new Combo();
-				menu.put(nombreCombo, nuevo);
+				// Aca tengo que añadir al combo las cosas extra
+				
+				
+				combos.put(nombre, nuevoCombo);
 			}
 		} 
 		catch (Exception e) {
