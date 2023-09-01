@@ -2,12 +2,14 @@ package procesamiento;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import modelo.Ingrediente;
 
 public class Restaurante {
-	ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+	Map<String, Ingrediente> ingredientes = new HashMap<>();
 	
 	public void cargarInformacionRestaurante(File archivoIngredientes, File archivoMenu, File archivoCombos) {
 		cargarIngredientes(archivoIngredientes);
@@ -23,7 +25,7 @@ public class Restaurante {
 				String nombreProducto = partes[0];
 				int precioProducto = Integer.parseInt(partes[1]);
 				Ingrediente nuevo = new Ingrediente(nombreProducto, precioProducto);
-				ingredientes.add(nuevo);
+				ingredientes.put(nombreProducto, nuevo);
 			}
 			
 		} 
