@@ -4,8 +4,6 @@ import procesamiento.Restaurante;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Paths;
-import java.io.File;
 
 public class Aplicacion {
 	
