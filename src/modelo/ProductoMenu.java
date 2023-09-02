@@ -1,4 +1,5 @@
 package modelo;
+
 import procesamiento.Producto;
 
 public class ProductoMenu implements Producto {

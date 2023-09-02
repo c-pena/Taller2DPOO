@@ -21,7 +21,6 @@ public class Restaurante {
 		cargarCombos(archivoCombos);
 	}
 	
-	
 	private void cargarIngredientes(File archivoIngredientes) {
 		try (BufferedReader br = new BufferedReader(new FileReader(archivoIngredientes))) {
 			String linea = br.readLine();
@@ -67,10 +66,6 @@ public class Restaurante {
 				nuevoCombo.agregarItemACombo(menu.get(partes[3]));
 				nuevoCombo.agregarItemACombo(menu.get(partes[4]));
 				
-				
-				// Aca tengo que añadir al combo las cosas extra
-				
-				
 				combos.put(nombre, nuevoCombo);
 			}
 		} 
@@ -78,5 +73,7 @@ public class Restaurante {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 }

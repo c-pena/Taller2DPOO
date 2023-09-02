@@ -1,7 +1,6 @@
 package modelo;
 
 import java.util.ArrayList;
-
 import procesamiento.Producto;
 
 public class Combo implements Producto {

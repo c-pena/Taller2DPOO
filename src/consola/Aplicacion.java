@@ -4,7 +4,7 @@ import procesamiento.Restaurante;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import java.io.File;
 
 public class Aplicacion {
 	
@@ -17,12 +17,21 @@ public class Aplicacion {
 		System.out.println("3. Agregar un elemento a un pedido");
 		System.out.println("4. Cerrar un pedido y guardar la factura");
 		System.out.println("5. Consultar la información de un pedido dado su ID");
-		System.out.println("6. Salir");
-		System.out.println("");
+		System.out.println("6. Salir\n");
 	}
 	
 	public void ejecutarAplicacion() {
 		restaurante = new Restaurante();
+		try {
+			File menu = new File("menu.txt");
+			File combos = new File("combos.txt");
+			File ingredientes = new File("ingredentes.txt");
+			restaurante.cargarInformacionRestaurante(ingredientes, menu, combos);
+		}
+		catch (NumberFormatException e) {
+			System.out.println("Revisar los archivos en la carpeta data.");
+			e.printStackTrace();
+		}
 		boolean continuar = true;
 		while (continuar) {
 			try {
