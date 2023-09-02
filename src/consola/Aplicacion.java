@@ -4,6 +4,7 @@ import procesamiento.Restaurante;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.io.File;
 
 public class Aplicacion {
@@ -23,10 +24,7 @@ public class Aplicacion {
 	public void ejecutarAplicacion() {
 		restaurante = new Restaurante();
 		try {
-			File menu = new File("menu.txt");
-			File combos = new File("combos.txt");
-			File ingredientes = new File("ingredentes.txt");
-			restaurante.cargarInformacionRestaurante(ingredientes, menu, combos);
+			restaurante.cargarInformacionRestaurante("ingredientes.txt", "menu.txt", "combos.txt");
 		}
 		catch (NumberFormatException e) {
 			System.out.println("Revisar los archivos en la carpeta data.");
@@ -38,7 +36,7 @@ public class Aplicacion {
 				mostrarMenu();
 				int opcion_seleccionada = Integer.parseInt(input("Por favor seleccione una opción"));
 				if (opcion_seleccionada == 1)
-					;
+					System.out.println(restaurante.getMenuCompleto());
 				else if (opcion_seleccionada == 2 && restaurante != null)
 					;
 				else if (opcion_seleccionada == 3 && restaurante != null)
