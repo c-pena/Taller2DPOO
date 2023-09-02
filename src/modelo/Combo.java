@@ -9,7 +9,7 @@ public class Combo implements Producto {
 	private ArrayList<String> nombresProductos = new ArrayList<>();
 	private int precioCombo;
 	
-	public Combo (String nombre, double descuento) {
+	public Combo(String nombre, double descuento) {
 		this.descuento = descuento;
 		this.nombreCombo = nombre;
 	}

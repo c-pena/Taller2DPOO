@@ -105,8 +105,10 @@ public class Restaurante {
 		}
 		String menuFinal = menuBase.toString();
 		
-		String completa = uLine + combosFinal + uLine + menuFinal + uLine;
+		String completa = uLine + combosFinal + uLine + menuFinal;
 		return completa;
 	}
+	
+	
 	
 }
