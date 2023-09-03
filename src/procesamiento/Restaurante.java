@@ -37,7 +37,7 @@ public class Restaurante {
 		cargarBebidas(filePath + archivoBebidas);
 		cargarCombos(filePath + archivoCombos);
 		
-		if (ingredientes.size() > 0 && menu.size() > 0 && combos.size() > 0) {
+		if (ingredientes.size() > 0 && menu.size() > 0 && combos.size() > 0 && bebidas.size() > 0) {
 			estado++;
 		}
 	}
@@ -189,13 +189,13 @@ public class Restaurante {
 		return itemsBebidas;
 	}
 	
-	public void IniciarPedido(String nombreCliente, String direccionCliente) {
+	public void iniciarPedido(String nombreCliente, String direccionCliente) {
 		Pedido pedidoNuevo = new Pedido(nombreCliente, direccionCliente);
 		pedidoActual = pedidoNuevo;
 		estado++;
 	}
 	
-	public void AdicionarItemPedido(Producto producto) {
+	public void adicionarItemPedido(Producto producto) {
 		pedidoActual.agregarProducto(producto);
 		estado++;
 	}
@@ -207,6 +207,23 @@ public class Restaurante {
 	public void cerrarYGuardarPedido() {
 		System.out.println(pedidoActual.generarTextoFactura());
 		pedidoActual.guardarFactura();
+		ArrayList<Producto> itemsActual = pedidoActual.getItemsPedido();
+		ArrayList<Integer> idPedidosIgual = new ArrayList<>();
+		for (int i = 0; i < historialPedidos.size(); i++) {
+			Pedido pedidoComparar = historialPedidos.get(i);
+			ArrayList<Producto> itemsComparar = pedidoComparar.getItemsPedido();
+			if (itemsActual.containsAll(itemsComparar) && itemsComparar.containsAll(itemsActual)) {
+				idPedidosIgual.add(pedidoComparar.getIdPedido());
+			}
+		}
+		
+		if (!idPedidosIgual.isEmpty()) {
+			System.out.println("Pedidos identicos encontrados (por ID):");
+			for (int i = 0; i < idPedidosIgual.size(); i++) {
+				int idPedido = idPedidosIgual.get(i);
+				System.out.println("     * "+Integer.toString(idPedido));
+			}
+		}
 		historialPedidos.add(pedidoActual);
 		estado = 1;
 	}

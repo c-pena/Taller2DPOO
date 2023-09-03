@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import modelo.Bebida;
 import modelo.Combo;
 import modelo.Ingrediente;
 import modelo.ProductoAjustado;
@@ -45,7 +46,8 @@ public class Aplicacion {
 				else if (opcion_seleccionada == 2 && restaurante.getEstado() == 1) {
 					String nombreCliente = input("Por favor ingrese su nombre");
 					String direccionCliente = input("Por favor ingrese su dirección");
-					restaurante.IniciarPedido(nombreCliente, direccionCliente);
+					restaurante.iniciarPedido(nombreCliente, direccionCliente);
+					System.out.println("\nPedido iniciado... ");
 				}
 				else if (opcion_seleccionada == 3 && restaurante.getEstado() == 2) {
 					boolean continuarAgregar = true;
@@ -55,7 +57,8 @@ public class Aplicacion {
 						System.out.println("\n     ¿Qué tipo de elemento desea agregar?");
 						System.out.println("     1. Menú Base");
 						System.out.println("     2. Combo");
-						System.out.println("     3. Salir\n");
+						System.out.println("     3. Bebida");
+						System.out.println("     4. Salir\n");
 						int opcionAgregar = Integer.parseInt(input("Por favor seleccione una opción"));
 						if (opcionAgregar == 1) {
 							ArrayList<Producto> itemsMenuBase = restaurante.getMenuBase();
@@ -107,10 +110,10 @@ public class Aplicacion {
 											continuarModificar = false;
 										}
 									}
-									restaurante.AdicionarItemPedido(productoAjustado);
+									restaurante.adicionarItemPedido(productoAjustado);
 								}
 								else {
-									restaurante.AdicionarItemPedido(itemsMenuBase.get(opcionAgregarBase-1));
+									restaurante.adicionarItemPedido(itemsMenuBase.get(opcionAgregarBase-1));
 								}
 							}
 							else {
@@ -127,21 +130,37 @@ public class Aplicacion {
 							}
 							int opcionAgregarCombo = Integer.parseInt(input("\nPor favor seleccione una opción"));
 							if (opcionAgregarCombo > 0 && opcionAgregarCombo <= itemsCombo.size()) {
-								restaurante.AdicionarItemPedido(itemsCombo.get(opcionAgregarCombo-1));
+								restaurante.adicionarItemPedido(itemsCombo.get(opcionAgregarCombo-1));
+							}
+							else {
+								System.out.println("Por favor seleccione una opción válida.");
+							}
+						}
+						else if (opcionAgregar == 3) {
+							ArrayList<Bebida> itemsBebida = restaurante.getBebidas();
+							System.out.println("\n          ¿Qué bebida desea agregar?\n");
+							for (int i = 0; i < itemsBebida.size(); i++) {
+								Bebida item = itemsBebida.get(i);
+								String nombre = item.getNombre();
+								System.out.println(String.format("          %s. %s",Integer.toString(i+1),nombre));
+							}
+							int opcionAgregarBebida = Integer.parseInt(input("\nPor favor seleccione una opción"));
+							if (opcionAgregarBebida > 0 && opcionAgregarBebida <= itemsBebida.size()) {
+								restaurante.adicionarItemPedido(itemsBebida.get(opcionAgregarBebida-1));
 							}
 							else {
 								System.out.println("Por favor seleccione una opción válida.");
 							}
 						}
 						else {
-							System.out.println("Terminando de agregar elementos al pedido...");
+							System.out.println("\nTerminando de agregar elementos al pedido...");
 							continuarAgregar = false;
 						}
 					}
 				}
 				else if (opcion_seleccionada == 4 && restaurante.getEstado() > 2) {
 					restaurante.cerrarYGuardarPedido();
-					System.out.println("Su factura se ha guardado en formato .txt...");
+					System.out.println("\nSu factura se ha guardado en formato .txt...");
 				}
 				else if (opcion_seleccionada == 5 && restaurante.getEstado() == 1) {
 					int idConsultar = Integer.parseInt(input("Por favor ingrese un ID (NÚMERO DE FACTURA)"));

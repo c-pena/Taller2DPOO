@@ -27,6 +27,10 @@ public class Pedido {
 		itemsPedido.add(nuevoItem);
 	}
 	
+	public ArrayList<Producto> getItemsPedido() {
+		return itemsPedido;
+	}
+	
 	private int getPrecioNetoPedido() {
 		int precioNeto = 0;
 		for (int i = 0; i < itemsPedido.size(); i++) {
@@ -48,6 +52,15 @@ public class Pedido {
 		return precioNeto + precioIVA;
 	}
 	
+	private int getCaloriasPedido() {
+		int calorias = 0;
+		for (int i = 0; i < itemsPedido.size(); i++) {
+			Producto item = itemsPedido.get(i);
+			calorias += item.getCalorias();
+		}
+		return calorias;
+	}
+	
 	public String generarTextoFactura() {
 		StringBuilder textoFactura = new StringBuilder(String.format(new String(new char[52]).replace('\0', '_') + "\n"));
 		textoFactura.append(String.format("|%-50s|\n", "=======BIENVENIDO A HAMBURGUESAS EL CORRAL========"));
@@ -62,6 +75,7 @@ public class Pedido {
 		textoFactura.append(String.format("|%-25s%25s|\n", "PRECIO NETO DEL PEDIDO:", getPrecioNetoPedido()));
 		textoFactura.append(String.format("|%-25s%25s|\n", "PRECIO IVA DEL PEDIDO:", getPrecioIVAPedido()));
 		textoFactura.append(String.format("|%-25s%25s|\n", "PRECIO TOTAL DEL PEDIDO:", getPrecioTotalPedido()));
+		textoFactura.append(String.format("|%-30s%20s|\n", "CALORIAS TOTALES DEL PEDIDO:", getCaloriasPedido()));
 		
 		String facturaFinal = textoFactura.toString();
 		
