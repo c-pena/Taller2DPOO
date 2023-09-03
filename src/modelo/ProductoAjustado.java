@@ -27,23 +27,23 @@ public class ProductoAjustado implements Producto {
 		String nombreIngrediente = ingrediente.getNombre();
 		this.ajustesIngredientesNombre.add("+" + nombreIngrediente);
 		int precioIngrediente = ingrediente.getCostoAdicional();
-		this.precioBase += precioIngrediente;
-		this.ajustesIngredientesPrecio.add("+" + Integer.toString(precioIngrediente));
+		precioBase += precioIngrediente;
+		ajustesIngredientesPrecio.add("+" + Integer.toString(precioIngrediente));
 	}
 	
 	public void eliminarIngrediente(Ingrediente ingrediente) {
 		String nombreIngrediente = ingrediente.getNombre();
-		this.ajustesIngredientesNombre.add("-" + nombreIngrediente);
-		this.ajustesIngredientesPrecio.add("-0");
+		ajustesIngredientesNombre.add("-" + nombreIngrediente);
+		ajustesIngredientesPrecio.add("-0");
 	}
 	
 	public String generarTextoFactura() {
 		String texto1 = String.format("|%-40s%10d|\n", nombre, precioBase);
-		StringBuilder textoAjustes = new StringBuilder(String.format("|     %-45s|\n", "LISTADO DE AJUSTES:"));
+		StringBuilder textoAjustes = new StringBuilder(String.format("|     %-45s|\n", "*ajustes:"));
 		for (int i = 0; i < ajustesIngredientesNombre.size(); i++) {
 			String nombre = ajustesIngredientesNombre.get(i);
 			String ajustePrecio = ajustesIngredientesPrecio.get(i);
-			String textoAjuste = String.format("|    %-30s%10d     |\n", nombre, ajustePrecio);
+			String textoAjuste = String.format("|     %-35s%10s|\n", nombre, ajustePrecio);
 			textoAjustes.append(textoAjuste);
 		}
 		String ajusteFinal = textoAjustes.toString();

@@ -49,31 +49,36 @@ public class Pedido {
 		return precioNeto + precioIVA;
 	}
 	
-	private String generarTextoFactura() {
+	public String generarTextoFactura() {
 		StringBuilder textoFactura = new StringBuilder(String.format(new String(new char[52]).replace('\0', '_') + "\n"));
 		textoFactura.append(String.format("|%-50s|\n", "=======BIENVENIDO A HAMBURGUESAS EL CORRAL========"));
-		textoFactura.append(String.format("|     %-20s%25d|\n", "NOMBRE DEL CLIENTE:", nombreCliente));
-		textoFactura.append(String.format("|     %-15s%30d|\n", "DIRECCION:", direccionCliente));
-		textoFactura.append(String.format("|     %-20s%25d|\n", "NÚMERO DE FACTURA:", idPedido));
+		textoFactura.append(String.format("|     %-20s%25s|\n", "NOMBRE DEL CLIENTE:", nombreCliente));
+		textoFactura.append(String.format("|     %-15s%30s|\n", "DIRECCION:", direccionCliente));
+		textoFactura.append(String.format("|     %-20s%25s|\n", "NÚMERO DE FACTURA:", idPedido));
 		textoFactura.append(new String(new char[52]).replace('\0', '_') + "\n");
 		
-		textoFactura.append(String.format("|%-50s|\n", "DETALLES DEL PEDIDO:"));
-		for (int i = 0; i < itemsPedido.size(); i++) {
-			Producto item = itemsPedido.get(i);
-			textoFactura.append(item.generarTextoFactura());
-		}
+		textoFactura.append(generarDetallesPedido());
 		textoFactura.append(new String(new char[52]).replace('\0', '_') + "\n");
 		
-		textoFactura.append(String.format("|%-25s%25d|\n", "PRECIO NETO DEL PEDIDO:", getPrecioNetoPedido()));
-		textoFactura.append(String.format("|%-25s%25d|\n", "PRECIO IVA DEL PEDIDO:", getPrecioIVAPedido()));
-		textoFactura.append(String.format("|%-25s%25d|\n", "PRECIO TOTAL DEL PEDIDO:", getPrecioTotalPedido()));
+		textoFactura.append(String.format("|%-25s%25s|\n", "PRECIO NETO DEL PEDIDO:", getPrecioNetoPedido()));
+		textoFactura.append(String.format("|%-25s%25s|\n", "PRECIO IVA DEL PEDIDO:", getPrecioIVAPedido()));
+		textoFactura.append(String.format("|%-25s%25s|\n", "PRECIO TOTAL DEL PEDIDO:", getPrecioTotalPedido()));
 		
 		String facturaFinal = textoFactura.toString();
 		
 		return facturaFinal;
 	}
 	
-	public void guardarFactura(File archivo) {
+	public String generarDetallesPedido() {
+		StringBuilder textoDetalle = new StringBuilder(String.format("|%-50s|\n", "DETALLES DEL PEDIDO:"));
+		for (int i = 0; i < itemsPedido.size(); i++) {
+			Producto item = itemsPedido.get(i);
+			textoDetalle.append(item.generarTextoFactura());
+		}
+		return textoDetalle.toString();
+	}
+	
+	public void guardarFactura() {
 		try (FileWriter writer = new FileWriter("Factura"+Integer.toString(idPedido)+".txt")) {
             writer.write(generarTextoFactura());
         } catch (IOException e) {
