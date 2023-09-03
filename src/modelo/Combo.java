@@ -31,9 +31,9 @@ public class Combo implements Producto {
 	
 	public String generarTextoFactura() {
 		String texto1 = String.format("|%-40s%10d|\n", nombreCombo, getPrecio());
-		String texto2 = String.format("|    *%-45s|\n", nombresProductos.get(0));
-		String texto3 = String.format("|    *%-45s|\n", nombresProductos.get(1));
-		String texto4 = String.format("|    *%-45s|\n", nombresProductos.get(2));
+		String texto2 = String.format("|     *%-44s|\n", nombresProductos.get(0));
+		String texto3 = String.format("|     *%-44s|\n", nombresProductos.get(1));
+		String texto4 = String.format("|     *%-44s|\n", nombresProductos.get(2));
 		String completa = texto1 + texto2 + texto3 + texto4;
 		return completa;
 	}
