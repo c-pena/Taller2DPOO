@@ -159,7 +159,7 @@ public class Aplicacion {
 				}
 			}
 			catch (NumberFormatException e) {
-				System.out.println("Debe seleccionar uno de los números de las opciones.");
+				System.out.println("Debe seleccionar uno de los números de las opciones. ");
 			}
 		}
 	}
