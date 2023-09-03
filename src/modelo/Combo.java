@@ -8,6 +8,7 @@ public class Combo implements Producto {
 	private String nombreCombo;
 	private ArrayList<String> nombresProductos = new ArrayList<>();
 	private int precioCombo;
+	private int calorias;
 	
 	public Combo(String nombre, double descuento) {
 		this.descuento = descuento;
@@ -19,6 +20,7 @@ public class Combo implements Producto {
 		this.nombresProductos.add(nombreItem);
 		int precioItem = itemCombo.getPrecio();
 		this.precioCombo += precioItem;
+		this.calorias += itemCombo.getCalorias();
 	}
 	
 	public int getPrecio() {
@@ -36,5 +38,9 @@ public class Combo implements Producto {
 		String texto4 = String.format("|     *%-44s|\n", nombresProductos.get(2));
 		String completa = texto1 + texto2 + texto3 + texto4;
 		return completa;
+	}
+
+	public int getCalorias() {
+		return calorias;
 	}
 }

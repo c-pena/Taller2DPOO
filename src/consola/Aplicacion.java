@@ -29,7 +29,7 @@ public class Aplicacion {
 	public void ejecutarAplicacion() {
 		restaurante = new Restaurante();
 		try {
-			restaurante.cargarInformacionRestaurante("ingredientes.txt", "menu.txt", "combos.txt");
+			restaurante.cargarInformacionRestaurante("ingredientes.txt", "menu.txt", "combos.txt","bebidas.txt");
 		}
 		catch (NumberFormatException e) {
 			System.out.println("Revisar los archivos en la carpeta data.");

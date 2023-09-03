@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import modelo.Bebida;
 import modelo.Combo;
 import modelo.Ingrediente;
 import modelo.ProductoMenu;
@@ -21,17 +22,19 @@ public class Restaurante {
 	Map<String, Ingrediente> ingredientes = new HashMap<>();
 	Map<String, ProductoMenu> menu = new HashMap<>();
 	Map<String, Combo> combos = new HashMap<>();
+	Map<String, Bebida> bebidas = new HashMap<>();
 	
 	public int getEstado() {
 		return estado;
 	}
 	
-	public void cargarInformacionRestaurante(String archivoIngredientes, String archivoMenu, String archivoCombos) {
+	public void cargarInformacionRestaurante(String archivoIngredientes, String archivoMenu, String archivoCombos, String archivoBebidas) {
 		String workingDir = System.getProperty("user.dir");
         String filePath = workingDir + File.separator + "data" + File.separator;
         
 		cargarIngredientes(filePath + archivoIngredientes);
 		cargarMenu(filePath + archivoMenu);
+		cargarBebidas(filePath + archivoBebidas);
 		cargarCombos(filePath + archivoCombos);
 		
 		if (ingredientes.size() > 0 && menu.size() > 0 && combos.size() > 0) {
@@ -46,7 +49,8 @@ public class Restaurante {
 				String[] partes = linea.split(";");
 				String nombreProducto = partes[0];
 				int precioProducto = Integer.parseInt(partes[1]);
-				Ingrediente nuevo = new Ingrediente(nombreProducto, precioProducto);
+				int caloriasProducto = Integer.parseInt(partes[2]);
+				Ingrediente nuevo = new Ingrediente(nombreProducto, precioProducto, caloriasProducto);
 				ingredientes.put(nombreProducto, nuevo);
 				linea = br.readLine();
 			}
@@ -64,7 +68,8 @@ public class Restaurante {
 				String[] partes = linea.split(";");
 				String nombreProducto = partes[0];
 				int precioProducto = Integer.parseInt(partes[1]);
-				ProductoMenu nuevo = new ProductoMenu(nombreProducto, precioProducto);
+				int caloriasProducto = Integer.parseInt(partes[2]);
+				ProductoMenu nuevo = new ProductoMenu(nombreProducto, precioProducto, caloriasProducto);
 				menu.put(nombreProducto, nuevo);
 				linea = br.readLine();
 			}
@@ -86,9 +91,28 @@ public class Restaurante {
 				
 				nuevoCombo.agregarItemACombo(menu.get(partes[2]));
 				nuevoCombo.agregarItemACombo(menu.get(partes[3]));
-				nuevoCombo.agregarItemACombo(menu.get(partes[4]));
+				nuevoCombo.agregarItemACombo(bebidas.get(partes[4]));
 				
 				combos.put(nombre, nuevoCombo);
+				linea = br.readLine();
+			}
+			br.close();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void cargarBebidas(String archivoBebidas) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(archivoBebidas), StandardCharsets.UTF_8))) {
+			String linea = br.readLine();
+			while(linea != null) {
+				String[] partes = linea.split(";");
+				String nombreBebida = partes[0];
+				int precioBebida = Integer.parseInt(partes[1]);
+				int caloriasBebida = Integer.parseInt(partes[2]);
+				Bebida nueva = new Bebida(nombreBebida, precioBebida, caloriasBebida);
+				bebidas.put(nombreBebida, nueva);
 				linea = br.readLine();
 			}
 			br.close();
@@ -117,7 +141,15 @@ public class Restaurante {
 		}
 		String menuFinal = menuBase.toString();
 		
-		String completa = uLine + combosFinal + uLine + menuFinal;
+		StringBuilder bebidasBase = new StringBuilder(String.format("|%-50s|\n", "LISTADO DE BEBIDAS DISPONIBLES:"));
+		for (Map.Entry<String, Bebida> set : bebidas.entrySet()) {
+			Bebida bebida = set.getValue();
+			String factura = bebida.generarTextoFactura();
+			bebidasBase.append(factura);
+		}
+		String bebidasFinal = bebidasBase.toString();
+		
+		String completa = uLine + combosFinal + uLine + menuFinal + uLine + bebidasFinal;
 		return completa;
 	}
 	
@@ -146,6 +178,15 @@ public class Restaurante {
 			itemsCombos.add(combo);
 		}
 		return itemsCombos;
+	}
+	
+	public ArrayList<Bebida> getBebidas() {
+		ArrayList<Bebida> itemsBebidas = new ArrayList<>();
+		for (Map.Entry<String, Bebida> set : bebidas.entrySet()) {
+			Bebida bebida = set.getValue();
+			itemsBebidas.add(bebida);
+		}
+		return itemsBebidas;
 	}
 	
 	public void IniciarPedido(String nombreCliente, String direccionCliente) {

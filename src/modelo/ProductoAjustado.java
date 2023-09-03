@@ -7,12 +7,14 @@ import procesamiento.Producto;
 public class ProductoAjustado implements Producto {
 	private String nombre;
 	private int precioBase;
+	private int calorias;
 	private ArrayList<String> ajustesIngredientesNombre = new ArrayList<>();
 	private ArrayList<String> ajustesIngredientesPrecio = new ArrayList<>();
 	
 	public ProductoAjustado(ProductoMenu productoBase) {
 		this.nombre = productoBase.getNombre();
 		this.precioBase = productoBase.getPrecio();
+		this.calorias = productoBase.getCalorias();
 	}
 
 	public int getPrecio() {
@@ -29,6 +31,8 @@ public class ProductoAjustado implements Producto {
 		int precioIngrediente = ingrediente.getCostoAdicional();
 		precioBase += precioIngrediente;
 		ajustesIngredientesPrecio.add("+" + Integer.toString(precioIngrediente));
+		int caloriasIngrediente = ingrediente.getCalorias();
+		calorias += caloriasIngrediente;
 	}
 	
 	public void eliminarIngrediente(Ingrediente ingrediente) {
@@ -49,5 +53,9 @@ public class ProductoAjustado implements Producto {
 		String ajusteFinal = textoAjustes.toString();
 		String completa = texto1 + ajusteFinal;
 		return completa;
+	}
+
+	public int getCalorias() {
+		return calorias;
 	}
 }
