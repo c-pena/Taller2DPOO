@@ -171,7 +171,7 @@ public class Aplicacion {
 			return reader.readLine();
 		}
 		catch (IOException e) {
-			System.out.println("Error leyendo de la consola");
+			System.out.println("Error leyendo de la consola.");
 			e.printStackTrace();
 		}
 		return null;
